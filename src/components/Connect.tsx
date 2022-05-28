@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { ethers } from "ethers";
+import { ExternalProvider } from "@ethersproject/providers";
 
-function WalletBalance() {
+declare global {
+  interface Window {
+    ethereum?: ExternalProvider;
+  }
+}
+
+function WalletBalance(): JSX.Element {
   const [balance, setBalance] = useState();
   const [account, setAccount] = useState();
 
   const getBalance = async () => {
-    const [account] = await window.ethereum.request({
+    const [account] = await window.ethereum?.request({
       method: "eth_requestAccounts",
     });
     setAccount(account);
